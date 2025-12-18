@@ -1,0 +1,140 @@
+Build a COMPLETE, PRODUCTION-READY Kuaishou Video Downloader web app.
+This must work correctly on the FIRST BUILD.
+Optimize for minimal Lovable credits.
+
+========================
+DEPLOYMENT & ACCESS
+========================
+- Deploy using Lovable Cloud
+- Public access only
+- NO login required
+- Must work via public .lovable.app URL
+- Must work inside WordPress iframe
+
+========================
+UI RULES (CRITICAL)
+========================
+1) DO NOT display any developer instructions in the UI.
+2) DO NOT render:
+   - “WordPress Embed Code”
+   - iframe snippets
+   - copy buttons
+   - HTML blocks
+3) End users must NEVER see embed code inside the app UI.
+
+IMPORTANT:
+- You MUST still GENERATE a WordPress iframe embed code,
+  but expose it ONLY as documentation/output,
+  NOT rendered inside the app interface.
+
+========================
+WORDPRESS EMBED REQUIREMENTS
+========================
+Provide a clean iframe embed snippet in documentation/output:
+
+<iframe src="PUBLIC_LOVABLE_APP_URL"
+        style="width:100%;min-height:900px;border:none;display:block;"
+        loading="lazy"
+        allow="clipboard-write"
+        title="Kuaishou Video Downloader">
+</iframe>
+
+- The app itself must not show this code.
+- The iframe must be fully responsive.
+- No fixed height UI.
+
+========================
+DESIGN
+========================
+- Minimalist white UI
+- Mobile-first
+- Fully responsive
+- No fixed widths
+- No fixed heights
+
+========================
+USER FLOW
+========================
+1. Paste Kuaishou URL
+2. Click “Get Video”
+3. Loading state
+4. Video preview (thumbnail, title, author)
+5. Download buttons:
+   - Video download
+   - Audio-only download
+
+========================
+BACKEND / EDGE FUNCTION (CRITICAL)
+========================
+Fix ALL Edge Function issues.
+
+Requirements:
+1. Fetch Kuaishou pages using browser-like headers:
+   - User-Agent (modern Chrome/Mobile)
+   - Accept
+   - Accept-Language
+   - Referer: https://www.kuaishou.com/
+2. Follow redirects.
+3. Parse HTML safely (do NOT assume JSON).
+4. Wrap ALL logic in try/catch.
+5. NEVER crash or return non-2xx without JSON response.
+6. Always return structured success/error response.
+
+========================
+DOWNLOAD LOGIC (VERY IMPORTANT)
+========================
+- Use ONE unified download handler for BOTH video and audio.
+- Do NOT create separate fragile endpoints.
+
+Video:
+- Prefer direct MP4 if available.
+- If HLS (.m3u8):
+  - Do NOT send playlist to browser.
+  - Fetch and stream full video server-side.
+- Must stream complete, playable MP4.
+
+Audio:
+- Extract audio correctly (M4A or MP3).
+- Must NOT return video when audio is requested.
+
+Headers (MANDATORY):
+- Content-Type correctly set.
+- Content-Disposition: attachment; filename="kuaishou-video.mp4" or audio filename.
+
+Result:
+- Clicking video download NEVER fails.
+- Clicking audio download NEVER returns video.
+- No partial files.
+- No broken files.
+- No redirect to Kuaishou.
+
+========================
+FRONTEND BEHAVIOR
+========================
+- Download buttons must call backend proxy endpoint.
+- Never expose raw Kuaishou URLs.
+- Never open Kuaishou site in browser.
+
+========================
+LEGAL / UX
+========================
+- Simple disclaimer allowed
+- No watermark claims
+- No analytics
+- No ads
+
+========================
+FINAL EXPECTATION
+========================
+Deliver a fully working Kuaishou Video Downloader where:
+- All public Kuaishou URLs fetch successfully
+- Video download works without Edge errors
+- Audio downloads audio only
+- WordPress iframe embed works cleanly
+- Embed code exists but is NOT shown to users
+- ZERO known issues from previous builds
+
+This is a FINAL, FIRST-TRY BUILD.
+Do not explain.
+Do not add extra UI sections.
+Just build it correctly.
